@@ -48,12 +48,19 @@ def result():
             Response
     """
     if request.method == "POST":
-        global results
-        results = get_results(start=start1, end=end1)
-        return redirect(url_for("result"))
+        if request.form.get('again') != None:
+            global results
+            results = get_results(start=start1, end=end1)
+            return redirect(url_for("result"))
+        
+        elif request.form.get('return') != None:
+            return redirect(url_for("index"))
     
     return render_template("results.html", results = results)
 
 @rn.route("/fuck")
 def fuck():
     return '<h1>傻逼政治！</h1>'
+
+if __name__=="__main__":
+    rn.run(port=5000,host="127.0.0.1",debug=False)
